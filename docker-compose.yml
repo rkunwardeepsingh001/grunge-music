@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build: ./grunge-backend
+    container_name: django_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./grunge-backend:/app
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000
+      "
+    networks:
+      - grunge_network
+
+
+  frontend:
+    build: ./grunge-frontend
+    container_name: react_frontend
+    ports:
+      - "3000:5173"
+    volumes:
+      - ./grunge-frontend:/app
+    command: npm run dev -- --host
+    networks:
+      - grunge_network
+
+
+networks:
+  grunge_network:
+    driver: bridge
