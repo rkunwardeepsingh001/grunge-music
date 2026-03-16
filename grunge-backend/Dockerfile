@@ -31,4 +31,5 @@ RUN python manage.py collectstatic --noinput
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
 # default to the development server; override in production
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000
