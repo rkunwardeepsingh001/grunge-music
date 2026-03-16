@@ -22,13 +22,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # ensure our entrypoint can execute inside the container
-RUN chmod +x docker-entrypoint.sh
+# RUN chmod +x docker-entrypoint.sh      ##
 
 # collect static assets
 RUN python manage.py collectstatic --noinput
 
 # entrypoint handles migrations before running the command
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
+# ENTRYPOINT ["/app/docker-entrypoint.sh"]     ##
 
 # default to the development server; override in production
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
