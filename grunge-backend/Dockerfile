@@ -58,5 +58,8 @@ RUN pip install setuptools
 COPY . .
 
 RUN python manage.py collectstatic --noinput
+CMD python manage.py migrate && \
+    python manage.py collectstatic --noinput && \
+    gunicorn grunge.wsgi:application --bind 0.0.0.0:8000
 
-CMD ["gunicorn", "grunge.wsgi:application", "--bind", "0.0.0.0:8000"]
+# CMD ["gunicorn", "grunge.wsgi:application", "--bind", "0.0.0.0:8000"]
