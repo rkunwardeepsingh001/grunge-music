@@ -17,6 +17,7 @@ WORKDIR /app
 # install dependencies
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel
 
 # copy project code
 COPY . .
@@ -32,4 +33,5 @@ RUN python manage.py collectstatic --noinput
 
 # default to the development server; override in production
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000
+# CMD gunicorn config.wsgi:application --bind 0.0.0.0:8000   # added for CI
+CMD ["gunicorn", "grunge.wsgi:application", "--bind", "0.0.0.0:8000"]
