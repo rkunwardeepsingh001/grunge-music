@@ -1,18 +1,71 @@
+# name: CI
+
+# on:
+#   push:
+#     branches: [ main ]
+
+# jobs:
+
+#   build:
+
+#     runs-on: ubuntu-latest
+
+#     steps:
+
+#       - uses: actions/checkout@v4
+
+#       - name: Build backend docker
+#         run: docker build ./grunge-backend
+
+
+
 name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
 
-  build:
-
+  backend:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
 
-      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
 
-      - name: Build backend docker
-        run: docker build ./grunge-backend
+      - name: Install backend deps
+        run: |
+          cd grunge-backend
+          pip install -r requirements.txt
+
+      - name: Django check
+        run: |
+          cd grunge-backend
+          python manage.py check
+
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install frontend deps
+        run: |
+          cd grunge-frontend
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd grunge-frontend
+          npm run build
