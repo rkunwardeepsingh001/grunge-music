@@ -9,10 +9,15 @@ services:
       - "8000:8000"
     volumes:
       - ./grunge-backend:/app
+    # command: >
+    #   sh -c "
+    #   python manage.py migrate &&
+    #   python manage.py runserver 0.0.0.0:8000
+    #   "
     command: >
       sh -c "
       python manage.py migrate &&
-      python manage.py runserver 0.0.0.0:8000
+      gunicorn grunge.wsgi:application --bind 0.0.0.0:8000
       "
     networks:
       - grunge_network

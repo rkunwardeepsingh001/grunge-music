@@ -43,6 +43,34 @@
 
 
 
+# FROM python:3.10
+
+# WORKDIR /app
+
+# COPY requirements.txt .
+
+# RUN pip install --upgrade pip
+# RUN pip install -r requirements.txt
+
+# # FIX for pkg_resources
+# RUN pip install setuptools
+
+# COPY . .
+
+# RUN python manage.py collectstatic --noinput
+# CMD python manage.py migrate && \
+#     python manage.py collectstatic --noinput && \
+#     gunicorn grunge.wsgi:application --bind 0.0.0.0:8000
+
+# # CMD ["gunicorn", "grunge.wsgi:application", "--bind", "0.0.0.0:8000"]
+
+
+
+
+
+
+
+
 FROM python:3.10
 
 WORKDIR /app
@@ -51,15 +79,13 @@ COPY requirements.txt .
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-
-# FIX for pkg_resources
-RUN pip install setuptools
+RUN pip install setuptools whitenoise
 
 COPY . .
 
 RUN python manage.py collectstatic --noinput
-CMD python manage.py migrate && \
-    python manage.py collectstatic --noinput && \
-    gunicorn grunge.wsgi:application --bind 0.0.0.0:8000
 
-# CMD ["gunicorn", "grunge.wsgi:application", "--bind", "0.0.0.0:8000"]
+EXPOSE 8000
+
+CMD python manage.py migrate && \
+    gunicorn grunge.wsgi:application --bind 0.0.0.0:8000
