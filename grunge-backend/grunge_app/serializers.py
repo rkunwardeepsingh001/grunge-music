@@ -213,7 +213,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
             PlaylistTrack.objects.create(playlist=playlist, track=track, order=order)
 
     def create(self, validated_data):
-             """
+        """
         Create playlist and assign tracks.
         """
         # track_
@@ -225,7 +225,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
         return playlist
 
     def update(self, instance, validated_data):
-             """
+        """
         update playlist and assign tracks.
         """
         # track_
