@@ -216,7 +216,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
              """
         Create playlist and assign tracks.
         """
-        track_
+        # track_
         track_uuids = validated_data.pop("tracks", [])
         playlist = Playlist.objects.create(**validated_data)
         if track_uuids:
@@ -228,7 +228,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
              """
         update playlist and assign tracks.
         """
-        track_
+        # track_
         logger.info("Updating playlist")
         track_uuids = validated_data.pop("tracks", None)
         for attr, value in validated_data.items():
