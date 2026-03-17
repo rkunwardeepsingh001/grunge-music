@@ -78,14 +78,18 @@ WORKDIR /app
 COPY requirements.txt .
 
 RUN pip install --upgrade pip
+RUN pip install setuptools
+RUN pip install wheel
 RUN pip install -r requirements.txt
-RUN pip install setuptools whitenoise
 
 COPY . .
+
+RUN mkdir -p /app/static
 
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD python manage.py migrate && \
-    gunicorn grunge.wsgi:application --bind 0.0.0.0:8000
+CMD sh -c "pip install setuptools && \
+python manage.py migrate && \
+gunicorn grunge.wsgi:application --bind 0.0.0.0:8000"
